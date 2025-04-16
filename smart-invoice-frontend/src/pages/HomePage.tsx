@@ -1,75 +1,48 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
-
-
-interface Invoice {
-  id: number;
-  date: string;
-  provider?: string; // opcional si aún no tenés este campo
-}
+import { Layout } from "../layout";
+import {
+  FileText,
+  UploadCloud,
+  Users,
+  Package,
+  ShoppingCart
+} from "lucide-react";
 
 export const HomePage = () => {
-  const [invoices, setInvoices] = useState<Invoice[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchInvoices = async () => {
-      try {
-        const res = await axios.get("http://localhost:8000/invoices/");
-        setInvoices(res.data);
-      } catch (err) {
-        toast.error("Error al obtener facturas");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchInvoices();
-  }, []);
-
   return (
-    <div className="max-w-3xl mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">📋 Facturas Cargadas</h1>
-
-      <div className="mb-4">
-        <Link to="/upload" className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
-          + Subir nueva factura
+    <Layout>
+      <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+        <Link
+          to="/invoices"
+          className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-4 rounded shadow flex items-center justify-center gap-2"
+        >
+          <FileText className="w-5 h-5" /> Facturas de Proveedores
+        </Link>
+        <Link
+          to="/upload"
+          className="bg-green-600 hover:bg-green-700 text-white px-6 py-4 rounded shadow flex items-center justify-center gap-2"
+        >
+          <UploadCloud className="w-5 h-5" /> Subir Factura
+        </Link>
+        <Link
+          to="/clients"
+          className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-4 rounded shadow flex items-center justify-center gap-2"
+        >
+          <Users className="w-5 h-5" /> Clientes
+        </Link>
+        <Link
+          to="/products"
+          className="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-4 rounded shadow flex items-center justify-center gap-2"
+        >
+          <Package className="w-5 h-5" /> Productos
+        </Link>
+        <Link
+          to="/sales"
+          className="bg-red-500 hover:bg-red-600 text-white px-6 py-4 rounded shadow flex items-center justify-center gap-2"
+        >
+          <ShoppingCart className="w-5 h-5" /> Ventas
         </Link>
       </div>
-
-      {loading ? (
-        <p>Cargando...</p>
-      ) : invoices.length === 0 ? (
-        <p>No hay facturas cargadas.</p>
-      ) : (
-        <table className="w-full bg-white shadow rounded">
-          <thead>
-            <tr className="bg-gray-200 text-left">
-              <th className="p-2">ID</th>
-              <th className="p-2">Fecha</th>
-              <th className="p-2">Proveedor</th>
-              <th className="p-2">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {invoices.map((inv) => (
-              <tr key={inv.id} className="border-t">
-                <td className="p-2">{inv.id}</td>
-                <td className="p-2">{inv.date}</td>
-                <td className="p-2">{inv.provider || "N/D"}</td>
-                <td className="p-2 space-x-2">
-                  <Link to={`/invoices/${inv.id}`} className="text-blue-600 hover:underline">
-                    Ver
-                  </Link>
-                  {/* Futuro: botón eliminar aquí */}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
-    </div>
+    </Layout>
   );
 };

@@ -1,20 +1,19 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { UploadPage } from "./pages/UploadPage";
+import { Routes, Route } from "react-router-dom";
 import { HomePage } from "./pages/HomePage";
+import { UploadPage } from "./pages/UploadPage";
+import { InvoiceListPage } from "./pages/InvoiceListPage";
 import { InvoiceDetailPage } from "./pages/InvoiceDetailPage";
 
 function App() {
   return (
-    <BrowserRouter>
-      <div className="min-h-screen bg-gray-100 p-4">
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/upload" element={<UploadPage />} />
-          <Route path="/invoices/:id" element={<InvoiceDetailPage />} />
-        </Routes>
-      </div>
-    </BrowserRouter>
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/upload" element={<UploadPage />} />
+      <Route path="/invoices" element={<InvoiceListPage />} />
+      <Route path="/invoices/:id" element={<InvoiceDetailPage />} />
+    </Routes>
   );
 }
+
 
 export default App;
